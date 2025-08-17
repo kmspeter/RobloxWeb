@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 /**
- * App.tsx — RobloxEdu 싱글 페이지 앱(SPA)
+ * App.jsx — RobloxEdu 싱글 페이지 앱(SPA)
  *
  * ✅ 핵심 역할
  * - 상단 네비게이션(데스크톱/모바일)과 페이지 전환을 관리하는 루트 컴포넌트
@@ -37,11 +37,9 @@ import {
  * - Contact 폼은 동작 예시 UI만 제공. 제출 핸들러/검증/백엔드 연동 필요(TODO 주석 참조).
  */
 
-type Page = 'home' | 'about' | 'courses' | 'satellite' | 'synthetic-biology' | 'coding' | 'english-game' | 'team' | 'contact';
-
 function App() {
   // 현재 활성 페이지 상태
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [currentPage, setCurrentPage] = useState('home');
   // 모바일 햄버거 메뉴 열림/닫힘 상태
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -67,7 +65,7 @@ function App() {
   ];
 
   // 네비게이션 버튼 클릭 시 페이지 전환 및 모바일 메뉴 닫기
-  const handleNavigation = (pageId: Page) => {
+  const handleNavigation = (pageId) => {
     setCurrentPage(pageId);
     setIsMenuOpen(false);
   };
@@ -120,7 +118,7 @@ function App() {
                 <div key={item.id} className="relative group">
                   {/* 상위 메뉴 버튼: 현재 탭/하위 중 하나가 활성화면 강조 */}
                   <button
-                    onClick={() => handleNavigation(item.id as Page)}
+                    onClick={() => handleNavigation(item.id)}
                     className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       currentPage === item.id || (item.submenu && item.submenu.some(sub => sub.id === currentPage))
                         ? 'text-blue-600 bg-blue-50'
@@ -139,7 +137,7 @@ function App() {
                       {item.submenu.map((subitem) => (
                         <button
                           key={subitem.id}
-                          onClick={() => handleNavigation(subitem.id as Page)}
+                          onClick={() => handleNavigation(subitem.id)}
                           className={`flex items-center space-x-2 w-full px-4 py-3 text-left text-sm hover:bg-gray-50 first:rounded-t-md last:rounded-b-md transition-colors ${
                             currentPage === subitem.id ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
                           }`}
@@ -170,7 +168,7 @@ function App() {
               {navigation.map((item) => (
                 <div key={item.id}>
                   <button
-                    onClick={() => handleNavigation(item.id as Page)}
+                    onClick={() => handleNavigation(item.id)}
                     className={`flex items-center space-x-2 w-full px-4 py-3 text-left rounded-md transition-colors ${
                       currentPage === item.id ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'
                     }`}
@@ -183,7 +181,7 @@ function App() {
                       {item.submenu.map((subitem) => (
                         <button
                           key={subitem.id}
-                          onClick={() => handleNavigation(subitem.id as Page)}
+                          onClick={() => handleNavigation(subitem.id)}
                           className={`flex items-center space-x-2 w-full px-4 py-2 text-left text-sm rounded-md transition-colors ${
                             currentPage === subitem.id ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50'
                           }`}
@@ -262,7 +260,7 @@ function App() {
   );
 }
 
-function HomePage({ onNavigate }: { onNavigate: (page: Page) => void }) {
+function HomePage({ onNavigate }) {
   return (
     <div>
       {/* Hero Section: 브랜드 가치/주요 CTA 배치 */}
@@ -462,11 +460,11 @@ function AboutPage() {
   );
 }
 
-function CoursesPage({ onNavigate }: { onNavigate: (page: Page) => void }) {
+function CoursesPage({ onNavigate }) {
   // 코스 메타데이터: UI 렌더링에 사용되는 정적 데이터
   const courses = [
     {
-      id: 'satellite' as Page,
+      id: 'satellite',
       title: 'Satellite Technology',
       description: 'Explore the fascinating world of satellites, orbital mechanics, and space communication systems through interactive simulations.',
       icon: Satellite,
@@ -475,7 +473,7 @@ function CoursesPage({ onNavigate }: { onNavigate: (page: Page) => void }) {
       duration: '8 weeks'
     },
     {
-      id: 'synthetic-biology' as Page,
+      id: 'synthetic-biology',
       title: 'Synthetic Biology',
       description: 'Dive into genetic engineering, CRISPR technology, and biotechnology applications in this cutting-edge course.',
       icon: Dna,
@@ -484,7 +482,7 @@ function CoursesPage({ onNavigate }: { onNavigate: (page: Page) => void }) {
       duration: '10 weeks'
     },
     {
-      id: 'coding' as Page,
+      id: 'coding',
       title: 'Coding & Game Development',
       description: 'Master Lua programming and game development principles while creating your own Roblox experiences.',
       icon: Code,
@@ -493,7 +491,7 @@ function CoursesPage({ onNavigate }: { onNavigate: (page: Page) => void }) {
       duration: '12 weeks'
     },
     {
-      id: 'english-game' as Page,
+      id: 'english-game',
       title: 'English Learning Game',
       description: 'Improve vocabulary, grammar, and communication skills through engaging gameplay and interactive stories.',
       icon: Gamepad2,
@@ -504,8 +502,8 @@ function CoursesPage({ onNavigate }: { onNavigate: (page: Page) => void }) {
   ];
 
   // 색상 토큰 매핑: Tailwind 유틸리티 클래스 조합을 객체로 관리
-  const getColorClasses = (color: string) => {
-    const colorMap: { [key: string]: { bg: string; text: string; hover: string } } = {
+  const getColorClasses = (color) => {
+    const colorMap = {
       blue: { bg: 'bg-blue-100', text: 'text-blue-600', hover: 'group-hover:bg-blue-600' },
       green: { bg: 'bg-green-100', text: 'text-green-600', hover: 'group-hover:bg-green-600' },
       purple: { bg: 'bg-purple-100', text: 'text-purple-600', hover: 'group-hover:bg-purple-600' },
